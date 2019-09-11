@@ -1,6 +1,7 @@
 /**
+ * Retrieve the value of the cookie for a given name
  * @param {string} name Name of the cookie value you want to receive.
- * @return {string} The value of the cookie for the given name
+ * @return {string}
  */
 function getCookie(name) {
   const cookiesArr = document.cookie.split("; ").map(str => str.split("="))

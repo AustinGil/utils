@@ -26,8 +26,10 @@
  * @param { number } newMax The new range maximum value
  * @returns { applyConversion }
  */
-const weightedRatio = (oldMin, oldMax, newMin, newMax) => value => {
+const weightedConversion = (oldMin, oldMax, newMin, newMax) => value => {
   // first part gets a value between 0-1
   // second part maps it to the new range
   return ((value - oldMin) / (oldMax - oldMin)) * (newMax - newMin) + newMin
 }
+
+export default weightedConversion

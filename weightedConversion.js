@@ -20,11 +20,11 @@
  * console.log(map1_10To0_100(9)) // 66.66666666666666
  * console.log(map1_10To0_100(10)) // 75
  *
- * @param { number } oldMin The old range minimum value
- * @param { number } oldMax The old range maximum value
- * @param { number } newMin The new range minimum value
- * @param { number } newMax The new range maximum value
- * @returns { applyConversion }
+ * @param {number} oldMin The old range minimum value
+ * @param {number} oldMax The old range maximum value
+ * @param {number} newMin The new range minimum value
+ * @param {number} newMax The new range maximum value
+ * @returns {applyConversion}
  */
 const weightedConversion = (oldMin, oldMax, newMin, newMax) => value => {
   // first part gets a value between 0-1

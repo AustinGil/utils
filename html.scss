@@ -1,0 +1,252 @@
+:root {
+  --blue: #{$blue};
+  --green: #{$green};
+  --red: #{$red};
+  --yellow: #{$yellow};
+
+  --highlight: #{$highlight};
+  --stroke: #{$stroke};
+  --success: #{$green};
+  --error: #{$red};
+  --warning: var(--yellow);
+}
+
+html {
+  box-sizing: border-box;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font: 1rem/1.5 "Montserrat", "Avenir Next", "Avenir", "Helvetica", "Arial",
+    sans-serif
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+figure,
+blockquote,
+pre {
+  margin: 0 0 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: rem(36px);
+  @include breakpoint(md) {
+    font-size: rem(48px);
+  }
+}
+
+h2 {
+  font-size: rem(32px);
+  @include breakpoint(md) {
+    font-size: rem(42px);
+  }
+}
+
+h3 {
+  font-size: rem(28px);
+  @include breakpoint(md) {
+    font-size: rem(36px);
+  }
+}
+
+h4 {
+  font-size: rem(24px);
+  @include breakpoint(md) {
+    font-size: rem(30px);
+  }
+}
+
+h5 {
+  font-size: rem(20px);
+  @include breakpoint(md) {
+    font-size: rem(24px);
+  }
+}
+
+h6 {
+  font-size: rem(18px);
+}
+
+a,
+button {
+  backface-visibility: hidden; // Helps prevent flickers on color transitions
+  transition-property: color, background, filter;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    filter: brightness(120%);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:hover {
+      // Leave :focus effect for keyboard users
+      filter: none;
+    }
+  }
+}
+
+a {
+  // color: var(--highlight);
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  -webkit-font-smoothing: inherit;
+}
+
+img,
+figure,
+svg {
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 0;
+
+  // Prevent clicks on SVG's inside links and buttons
+  a &,
+  button & {
+    pointer-events: none;
+  }
+}
+
+fieldset {
+  margin-left: 0;
+  margin-right: 0;
+  border: 0;
+  padding: 0;
+}
+
+legend {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--stroke);
+  font: inherit;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+select {
+  appearance: textfield;
+  appearance: none; // Hides the default dropdown arrow
+  padding-right: 2.3em; // So text doesn't overlap image
+  // use color variable, then string-replace '#' with '%23' for browser support
+  background-image: url(str-replace(
+    'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249.5 145.5"><path fill="#{$highlight}" d="M249.5 20.75c0 2-1 4.25-2.5 5.75L130.5 143c-1.5 1.5-3.75 2.5-5.75 2.5s-4.25-1-5.75-2.5L2.5 26.5C1 25 0 22.75 0 20.75S1 16.5 2.5 15L15 2.5C16.5 1 18.5 0 20.75 0c2 0 4.25 1 5.75 2.5l98.25 98.25L223 2.5c1.5-1.5 3.75-2.5 5.75-2.5s4.25 1 5.75 2.5L247 15c1.5 1.5 2.5 3.75 2.5 5.75z"></path></svg>',
+    "#",
+    "%23"
+  ));
+  background-size: 0.7em;
+  background-repeat: no-repeat;
+  background-position: right 0.8em center;
+
+  &::-ms-expand {
+    display: none; // Hides the default dropdown arrow in IE11
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+}
+
+input[type="submit"],
+input[type="button"] {
+  @extend button;
+  width: auto;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button,
+input[type="search"] {
+  appearance: none;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  // display: none;
+}
+
+small {
+  font-size: 80%;
+}
+
+table {
+  width: 100%;
+}
+
+pre {
+  overflow: auto;
+  max-height: rem(500px);
+  padding: rem(5px);
+  white-space: pre-wrap;
+}
+
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+// Text highlight effect 
+::selection {
+  color: #fff;
+  background: $highlight;
+}

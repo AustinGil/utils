@@ -1,0 +1,114 @@
+$spacers: ("0", 0), ("1", rem($size1)), ("2", rem($size2)), ("3", rem($size3)), ("4", rem($size4)),
+  ("5", rem($size5)), ("6", rem($size6));
+@each $spacer in $spacers {
+  .mt-#{nth($spacer, 1)},
+  .my-#{nth($spacer, 1)} {
+    margin-top: nth($spacer, 2);
+  }
+
+  .mb-#{nth($spacer, 1)},
+  .my-#{nth($spacer, 1)} {
+    margin-bottom: nth($spacer, 2);
+  }
+
+  .ml-#{nth($spacer, 1)},
+  .mx-#{nth($spacer, 1)} {
+    margin-left: nth($spacer, 2);
+  }
+
+  .mr-#{nth($spacer, 1)},
+  .mx-#{nth($spacer, 1)} {
+    margin-right: nth($spacer, 2);
+  }
+
+  .pt-#{nth($spacer, 1)},
+  .py-#{nth($spacer, 1)} {
+    padding-top: nth($spacer, 2);
+  }
+
+  .pb-#{nth($spacer, 1)},
+  .py-#{nth($spacer, 1)} {
+    padding-bottom: nth($spacer, 2);
+  }
+
+  .pl-#{nth($spacer, 1)},
+  .px-#{nth($spacer, 1)} {
+    padding-left: nth($spacer, 2);
+  }
+
+  .pr-#{nth($spacer, 1)},
+  .px-#{nth($spacer, 1)} {
+    padding-right: nth($spacer, 2);
+  }
+}
+
+@each $spacer in $spacers {
+  Responsive breakpoint support
+  /* stylelint-disable-next-line order/order */
+  @for $count from 1 through 4 {
+    $breakpoint: "sm";
+    @if $count == 2 {
+      $breakpoint: "md";
+    } @else if $count == 3 {
+      $breakpoint: "lg";
+    } @else if $count == 4 {
+      $breakpoint: "xl";
+    }
+
+    .mt-#{nth($spacer, 1)}\@#{$breakpoint},
+    .my-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        margin-top: nth($spacer, 2);
+      }
+    }
+
+    .mb-#{nth($spacer, 1)}\@#{$breakpoint},
+    .my-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        margin-bottom: nth($spacer, 2);
+      }
+    }
+
+    .ml-#{nth($spacer, 1)}\@#{$breakpoint},
+    .mx-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        margin-left: nth($spacer, 2);
+      }
+    }
+
+    .mr-#{nth($spacer, 1)}\@#{$breakpoint},
+    .mx-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        margin-right: nth($spacer, 2);
+      }
+    }
+
+    .pt-#{nth($spacer, 1)}\@#{$breakpoint},
+    .py-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        padding-top: nth($spacer, 2);
+      }
+    }
+
+    .pb-#{nth($spacer, 1)}\@#{$breakpoint},
+    .py-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        padding-bottom: nth($spacer, 2);
+      }
+    }
+
+    .pl-#{nth($spacer, 1)}\@#{$breakpoint},
+    .px-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        padding-left: nth($spacer, 2);
+      }
+    }
+
+    .pr-#{nth($spacer, 1)}\@#{$breakpoint},
+    .px-#{nth($spacer, 1)}\@#{$breakpoint} {
+      @include breakpoint($breakpoint) {
+        padding-right: nth($spacer, 2);
+      }
+    }
+  }
+}

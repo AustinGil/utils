@@ -1,5 +1,6 @@
 /**
  * Returns an HTTP method wrapper
+ * TODO: Add abort feature: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
  * @param {string} method HTTP method
  * @returns {function}
  */

@@ -9,15 +9,15 @@ function xhr(url, opts = {}) {
     const xhr = new XMLHttpRequest()
 
     // Alternative:
+    // https://gomakethings.com/promise-based-xhr/
     // xhr.onreadystatechange = function() {
     //   // Only run if the request is complete
     //   if (xhr.readyState !== 4) return;
 
     //   if (xhr.status >= 200 && xhr.status < 300) {
-    //     res(xhr);
-    //     return
+    //     return resolve(xhr);
     //   }
-    //   rej({
+    //   reject({
     //     status: xhr.status,
     //     statusText: xhr.statusText
     //   });
@@ -30,10 +30,10 @@ function xhr(url, opts = {}) {
     })
 
     xhr.onload = e => {
-      return res(e.target.responseText)
+      return resolve(e.target.responseText)
     }
 
-    xhr.onerror = rej
+    xhr.onerror = reject
 
     if (xhr.upload && opts.onProgress) {
       xhr.upload.onprogress = opts.onProgress

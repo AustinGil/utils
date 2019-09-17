@@ -1,6 +1,7 @@
 /**
  * Returns an HTTP method wrapper
- * TODO: Add abort feature: https://developer.mozilla.org/en-US/docs/Web/API/AbortController
+ * TODO: Add abort feature (https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
+ * TODO: Add streams (https://jakearchibald.com/2016/streams-ftw/)
  * @param {string} method HTTP method
  * @returns {function}
  */

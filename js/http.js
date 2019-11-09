@@ -14,6 +14,7 @@ function http(method = "GET") {
    */
   return (url, options = {}) => {
     options.method = options.method || method
+    options.headers = options.headers || {}
     const { query, json, data, body } = options
 
     if (query) {
@@ -22,6 +23,7 @@ function http(method = "GET") {
 
     if (!body) {
       if (json) {
+        options.headers["content-type"] = "application/json"
         options.body = JSON.stringify(json)
       } else if (data) {
         const form = new FormData()

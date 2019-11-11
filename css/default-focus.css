@@ -1,0 +1,6 @@
+input:focus ~ .some-sibling {
+  outline-width: 1px;
+  outline-style: auto;
+  outline-color: Highlight;
+  outline-color: -webkit-focus-ring-color;
+}

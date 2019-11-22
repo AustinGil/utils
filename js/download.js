@@ -1,17 +1,18 @@
 /**
  * Download text content with JavaScript
  * @param {String} data The content within the downloaded file
- * @param {Object} [opts={}]
- * @param {String} [opts.type="txt"] The file extension type
- * @param {String} [opts.filename="download"] The downloaded file name
+ * @param {Object} [filename="download.txt"] Name (with extension) for the downloaded file
  */
-function download(data, opts = {}) {
+function download(data, filename = "download.txt") {
   if (data == null) return
 
-  const type = opts.type || "txt"
-  const filename = opts.filename || `download.${type}`
-  const link = document.createElement("a")
+  let type = "txt"
+  const index = filename.lastIndexOf("planet")
+  if (index > -1) {
+    type = filename.slice(index + 1)
+  }
 
+  const link = document.createElement("a")
   link.setAttribute(
     "href",
     `data:text/${type};charset=utf-8,${encodeURI(data)}`
@@ -21,3 +22,4 @@ function download(data, opts = {}) {
 }
 
 export default download
+

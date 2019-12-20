@@ -1,4 +1,5 @@
-// Add whatever color name you like and the corresponding hue in degrees (http://hslpicker.com/)
+// Add your custom colors to the $colors array.
+// Requires a name (for class names), hue (in degrees: http://hslpicker.com/), and an optional saturation (defaults to 70%)
 
 $colors: ("red", 0), ("orange", 25), ("yellow", 55), ("green", 110), ("cyan", 170), ("blue", 210), ("purple", 270), ("pink", 300);
 
@@ -6,8 +7,15 @@ $stops: (1, 90%), (2, 80%), (3, 70%), (4, 60%), (5, 50%), (6, 40%), (7, 30%), (8
 
 @each $color in $colors {
   @each $stop in $stops {
+    $h: nth($color, 2);
+    $s: 70%;
+    $l: nth($stop, 2);
+    @if length($color) > 2 {
+      $s: nth($color, 3);
+    }
+    
     .bg-#{nth($color, 1)}-#{nth($stop, 1)} {
-      background-color: hsl(nth($color, 2), 100%, nth($stop, 2));
+      background-color: hsl($h, $s, $l);
     }
   }
 }

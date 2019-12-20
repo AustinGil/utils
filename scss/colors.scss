@@ -1,9 +1,8 @@
-// Add your custom colors to the $colors array.
-// Requires a name (for class names), hue (in degrees: http://hslpicker.com/), and an optional saturation (defaults to 70%)
+// Add your custom colors to the $colors array. Requires a name (for class names), hue (in degrees: http://hslpicker.com/), and an optional saturation (defaults to 70%)
 
 $colors: ("red", 0), ("orange", 25), ("yellow", 55), ("green", 110), ("cyan", 170), ("blue", 210), ("purple", 270), ("pink", 300);
 
-$stops: (1, 90%), (2, 80%), (3, 70%), (4, 60%), (5, 50%), (6, 40%), (7, 30%), (8, 20%), (9, 10%);
+$stops: (1, 10%), (2, 20%), (3, 30%), (4, 40%), (5, 50%), (6, 60%), (7, 70%), (8, 80%), (9, 90%);
 
 @each $color in $colors {
   @each $stop in $stops {
@@ -17,10 +16,31 @@ $stops: (1, 90%), (2, 80%), (3, 70%), (4, 60%), (5, 50%), (6, 40%), (7, 30%), (8
     .bg-#{nth($color, 1)}-#{nth($stop, 1)} {
       background-color: hsl($h, $s, $l);
     }
+    
+    .color-#{nth($color, 1)}-#{nth($stop, 1)} {
+      color: hsl($h, $s, $l);
+    }
   }
 }
 @each $stop in $stops {
+  $l: nth($stop, 2);
   .bg-gray-#{nth($stop, 1)} {
-    background-color: hsl(0, 0, nth($stop, 2));
+    background-color: hsl(0, 0, $l);
   }
+    
+  .color-gray-#{nth($stop, 1)} {
+    color: hsl(0, 0, $l);
+  }
+}
+.bg-white {
+  background-color: #fff; 
+}
+.color-white {
+  color: #fff; 
+}
+.bg-black {
+  background-color: #000; 
+}
+.color-black {
+  color: #000; 
 }

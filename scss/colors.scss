@@ -1,0 +1,18 @@
+// Add whatever color name you like and the corresponding hue in degrees (http://hslpicker.com/)
+
+$colors: ("red", 0), ("orange", 25), ("yellow", 55), ("green", 110), ("cyan", 170), ("blue", 210), ("purple", 270), ("pink", 300);
+
+$stops: (1, 90%), (2, 80%), (3, 70%), (4, 60%), (5, 50%), (6, 40%), (7, 30%), (8, 20%), (9, 10%);
+
+@each $color in $colors {
+  @each $stop in $stops {
+    .bg-#{nth($color, 1)}-#{nth($stop, 1)} {
+      background-color: hsl(nth($color, 2), 100%, nth($stop, 2));
+    }
+  }
+}
+@each $stop in $stops {
+  .bg-gray-#{nth($stop, 1)} {
+    background-color: hsl(0, 0, nth($stop, 2));
+  }
+}

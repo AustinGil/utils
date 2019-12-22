@@ -1,0 +1,53 @@
+$displays: block, inline-block, flex, inline-flex, grid, inline-grid;
+@for $i from 1 through length($displays) {
+  $value: nth($displays, $i);
+  .#{$value} {
+    display: $value;
+  }
+}
+
+$aligns: baseline, center, end, start, stretch;
+@for $i from 1 through length($aligns) {
+  $value: nth($aligns, $i);
+  .align-#{$value} {
+    align-items: $value;
+  }
+  
+  .justify-#{$value} {
+    justify-items: $value;
+  }
+}
+
+$gaps: 8px, 16px, 24px, 32px;
+@for $i from 1 through length($gaps) {
+  .gap-#{$i} {
+    grid-gap: nth($gaps, $i)
+  }
+
+  .column-gap-#{$i} {
+    grid-column-gap: nth($gaps, $i)
+  }
+
+  .row-gap-#{$i} {
+    grid-row-gap: nth($gaps, $i)
+  }
+}
+
+$columns: 2, 3, 4, 5, 6, 7, 8;
+@for $i from 1 through length($columns) {
+  $count: nth($columns, $i);
+  .columns-#{$count} {
+    grid-template-columns: repeat($count, 1fr);
+  }
+  .rows-#{$count} {
+    grid-template-rows: repeat($count, 1fr);
+  }
+}
+
+$spans: 2, 3, 4, 5, 6, 7, 8;
+@for $i from 1 through length($spans) {
+  $count: nth($columns, $i);
+  .column-span-#{$count} {
+    grid-column: span $count;
+  }
+}

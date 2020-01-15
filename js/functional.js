@@ -15,3 +15,16 @@ const tap = curry((fn, x) => {
   fn(x);
   return x;
 });
+
+const when = (cond, fn) => args => {
+ const shoudRun = cond instanceof Function ? cond(args) : cond;
+ return shoudRun ? fn(args) : args
+}
+
+const map = fn => initialValue => initialValue.map(fn)
+
+const keys = Object.keys
+
+const sort = (fn, items = []) => items.sort(fn)
+
+const forEach = (fn, items) => items.forEach(fn)

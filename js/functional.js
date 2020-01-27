@@ -3,8 +3,11 @@ const curry = fn => (...args) => fn.bind(null, ...args);
 const map = curry((fn, arr) => arr.map(fn));
 
 const compose = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
+const asyncCompose = (...fns) => x => fns.reduceRight((y, fn) => y.then(fn), Promise.resolve(x));
 
 const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x);
+const asyncPipe = (...fns) => x => fns.reduce((y, fn) => y.then(fn), Promise.resolve(x))
+
 
 const trace = curry((label, x) => {
   console.log(`== ${ label }:  ${ x }`);

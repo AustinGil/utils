@@ -8,7 +8,7 @@ select {
   padding-right: 2rem;
 
   /* Add a custom image for the dropdown */
-  background-image: url('data:image/svg+xmlutf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.96 16.442"><path d="M3.965 0l5.48 12.307L14.962 0h4l-7.618 16.442H7.62L0 0h3.965z" fill="currentColor"/></svg>');
+  background-image: url('data:image/svg+xmlutf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" fill="none" stroke="black"><path d="M7.5 3L4 6 .5 3"/></svg>');
   background-size: 0.7em;
   background-repeat: no-repeat;
   background-position: right 0.5em center;

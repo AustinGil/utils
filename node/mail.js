@@ -1,67 +1,65 @@
-const nodemailer = require("nodemailer")
-const SparkPost = require("sparkpost")
-const { mail } = require("../config")
+const nodemailer = require("nodemailer");
 
-const isProd = process.env.NODE_ENV === "production"
+const isProd = process.env.NODE_ENV === "production";
 
 class Transporter {
   async _createInstance() {
-    if (isProd) {
-      const transporter = new SparkPost(mail.apiKey)
-      return {
-        async send({ from, to, subject, text, html, templateId }) {
-          const params = {
-            options: { open_tracking: false, click_tracking: false },
-            content: { from, subject, text, html, template_id: templateId },
-            recipients: [{ address: to }],
-          }
-          await transporter.transmissions.send(params)
-        },
-      }
-    } else {
+    let options;
+
+    if (!isProd) {
       // Generate test SMTP service account from ethereal.email
-      const testAccount = await nodemailer.createTestAccount()
-      const transporter = nodemailer.createTransport({
+      const testAccount = await nodemailer.createTestAccount();
+      options = {
         host: "smtp.ethereal.email",
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
           user: testAccount.user,
-          pass: testAccount.pass,
-        },
-      })
-      return {
-        async send({ from, to, subject, text, html }) {
-          const info = await transporter.sendMail({
-            from,
-            to,
-            subject,
-            text,
-            html,
-          })
-          console.log("Message sent: %s", info.messageId)
-          // Preview only available when sending through an Ethereal account
-          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
-        },
-      }
+          pass: testAccount.pass
+        }
+      };
+    } else {
+      options = {
+        service: "SendinBlue", // no need to set host or port etc.
+        // host: "smtp-relay.sendinblue.com",
+        // port: 587,
+        // secure: false, // true for 465, false for other ports
+        auth: {
+          user: "me@me.co",
+          pass: "1234567890"
+        }
+      };
+    }
+
+    return nodemailer.createTransport(options);
+  }
+
+  async send({ to, from = mail.defaultFrom, subject, text, html, templateId }) {
+    const self = await this._createInstance();
+    const info = await self.sendMail({ to, from, subject, text, html, templateId });
+
+    if (!isProd) {
+      console.log("Message sent: %s", info.messageId);
+      // Preview only available when sending through an Ethereal account
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
     }
   }
-
-  async send({ from = mail.defaultFrom, subject, to, text, html, templateId }) {
-    const self = await this._createInstance()
-    self.send({ subject, to, text, html, templateId, from })
-  }
 }
 
-module.exports = async ({ subject, to, text, html, templateId, from }) => {
-  if (!subject || !to || !(text + html + templateId)) {
-    throw new Error("missing params")
-  }
-
+const mail = async ({ to, from, subject, text, html, templateId }) => {
   if (!isProd) {
-    subject = `[${process.env.NODE_ENV}] ` + subject
+    subject = `[${process.env.NODE_ENV}] ` + subject;
   }
 
-  const mailer = new Transporter()
-  await mailer.send({ to, text, html, templateId, subject, from })
-}
+  const mailer = new Transporter();
+  await mailer.send({ to, from, subject, text, html, templateId });
+};
+
+mail({
+  to: "you@you.co",
+  from: "me@me.co",
+  subject: "Check it",
+  text: "This is a great email!"
+}).then(console.log);
+
+module.exports = mail;

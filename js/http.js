@@ -35,23 +35,31 @@ function http(method = "GET") {
       }
     }
 
-    return fetch(url, options).then(res => {
-      if (!res.ok) {
-        throw res
+    return fetch(url, options).then(async res => {
+      const contentType = res.headers.get("content-type")
+      const isJson = contentType && contentType.includes("application/json")
+
+      const final = {
+        timeout: res.timeout,
+        url: res.url,
+        status: res.status,
+        statusText: res.statusText,
+        ok: res.ok,
+        // redirected false
+        headers: res.headers,
+        // text [Function: text]
+        // json [Function: json]
+        // blob [Function: blob]
+        // buffer [Function: buffer]
+        data: isJson ? await res.json() : await res.text(),
       }
 
-      const contentType = res.headers.get("content-type")
-      if (contentType && contentType.includes("application/json")) {
-        return res.json()
-      }
-      return res.text()
+      return final.ok ? final.data : Promise.reject(final)
     })
   }
 }
 
-module.exports = {
-  get: http("GET"),
-  post: http("POST"),
-  put: http("PUT"),
-  delete: http("DELETE"),
-}
+exports.get = http("GET")
+exports.post = http("POST")
+exports.put = http("PUT")
+exports.delete = http("DELETE")

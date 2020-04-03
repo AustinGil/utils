@@ -16,6 +16,7 @@ function http(method = "GET") {
     options.method = options.method || method
     options.headers = options.headers || {}
     const { query, json, data, body } = options
+    const contentType = options.headers["content-type"]
 
     if (query) {
       url += "?" + new URLSearchParams(query).toString()
@@ -26,12 +27,17 @@ function http(method = "GET") {
         options.headers["content-type"] = "application/json"
         options.body = JSON.stringify(json)
       } else if (data) {
-        const form = new FormData()
-        Object.entries(data).reduce((form, [key, value]) => {
-          form.append(key, value)
-          return form
-        }, form)
-        options.body = form
+        if (contentType.includes("x-www-form-urlencoded")) {
+          options.body = new URLSearchParams(data).toString()
+        } else {
+          const form = new FormData()
+          Object.entries(data).reduce((form, [key, value]) => {
+            form.append(key, value)
+            return form
+          }, form)
+
+          options.body = form
+        }
       }
     }
 
@@ -63,3 +69,25 @@ exports.get = http("GET")
 exports.post = http("POST")
 exports.put = http("PUT")
 exports.delete = http("DELETE")
+
+// Fetch Options signature:
+// {
+//   method: "GET", // POST, PUT, DELETE, etc.
+//   headers: {
+//     // the content type header value is usually auto-set
+//     // depending on the request body
+//     "Content-Type": "text/plain;charset=UTF-8"
+//   },
+//   body: undefined // string, FormData, Blob, BufferSource, or URLSearchParams
+//   referrer: "about:client", // or "" to send no Referer header,
+//   // or an url from the current origin
+//   referrerPolicy: "no-referrer-when-downgrade", // no-referrer, origin, same-origin...
+//   mode: "cors", // same-origin, no-cors
+//   credentials: "same-origin", // omit, include
+//   cache: "default", // no-store, reload, no-cache, force-cache, or only-if-cached
+//   redirect: "follow", // manual, error
+//   integrity: "", // a hash, like "sha256-abcdef1234567890"
+//   keepalive: false, // true
+//   signal: undefined, // AbortController to abort request
+//   window: window // null
+// }

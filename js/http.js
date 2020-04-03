@@ -3,7 +3,7 @@
  * TODO: Add abort feature (https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
  * TODO: Add streams (https://jakearchibald.com/2016/streams-ftw/)
  * TODO: Add Progress (https://danlevy.net/you-may-not-need-axios/)
- * @param {string} method HTTP method
+ * @param {string} [method] HTTP method
  * @returns {function}
  */
 function http(method = "GET") {

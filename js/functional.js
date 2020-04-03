@@ -31,3 +31,22 @@ const keys = Object.keys
 const sort = (fn, items = []) => items.sort(fn)
 
 const forEach = (fn, items) => items.forEach(fn)
+
+const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x)
+
+const filterNullishEntries = arr => arr.filter(([key, val]) => val != null)
+
+const filterNullishObject = pipe(
+  Object.entries,
+  filterNullishEntries,
+  Object.fromEntries
+)
+
+const keepEntriesByKey = keys => arr => {
+  return arr.filter(([key, val]) => keys.includes(key))
+}
+
+const pluckObjectKeys = keys => {
+  return pipe(Object.entries, keepEntriesByKey(keys), Object.fromEntries)
+}
+

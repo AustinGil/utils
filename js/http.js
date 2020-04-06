@@ -28,7 +28,7 @@ function http(method = "GET") {
         options.headers["content-type"] = "application/json"
         options.body = JSON.stringify(json)
       } else if (data) {
-        if (contentType.includes("x-www-form-urlencoded")) {
+        if (contentType && contentType.includes("x-www-form-urlencoded")) {
           options.body = new URLSearchParams(data).toString()
         } else {
           const form = new FormData()

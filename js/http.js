@@ -14,37 +14,28 @@ function http(method = "GET") {
    * @return {promise} Resulting fetch promise which resolves to the text or json response.
    */
   return (url, options = {}) => {
-    options.method = options.method || method
-    options.headers = options.headers || {}
-    const { query, json, data, body } = options
-    const contentType = options.headers["content-type"]
+    options.method = options.method || method;
+    options.headers = options.headers || {};
+    const { query, json, data, form, body } = options;
 
     if (query) {
-      url += "?" + new URLSearchParams(query).toString()
+      url += "?" + new URLSearchParams(query).toString();
     }
 
-    if (!body) {
+    if (["POST", "PUT", "PATCH"].includes(options.method) && !body) {
       if (json) {
-        options.headers["content-type"] = "application/json"
-        options.body = JSON.stringify(json)
+        options.headers["content-type"] = "application/json";
+        options.body = JSON.stringify(json);
       } else if (data) {
-        if (contentType && contentType.includes("x-www-form-urlencoded")) {
-          options.body = new URLSearchParams(data).toString()
-        } else {
-          const form = new FormData()
-          Object.entries(data).reduce((form, [key, value]) => {
-            form.append(key, value)
-            return form
-          }, form)
-
-          options.body = form
-        }
+        options.body = new URLSearchParams(data);
+      } else if (form) {
+        options.body = new FormData(form);
       }
     }
 
-    return fetch(url, options).then(async res => {
-      const contentType = res.headers.get("content-type")
-      const isJson = contentType && contentType.includes("application/json")
+    return fetch(url, options).then(async (res) => {
+      const contentType = res.headers.get("content-type");
+      const isJson = contentType && contentType.includes("application/json");
 
       const final = {
         timeout: res.timeout,
@@ -59,17 +50,18 @@ function http(method = "GET") {
         // blob [Function: blob]
         // buffer [Function: buffer]
         data: isJson ? await res.json() : await res.text(),
-      }
+      };
 
-      return final.ok ? final.data : Promise.reject(final)
-    })
-  }
+      return final.ok ? final.data : Promise.reject(final);
+    });
+  };
 }
 
-exports.get = http("GET")
-exports.post = http("POST")
-exports.put = http("PUT")
-exports.delete = http("DELETE")
+exports.get = http("GET");
+exports.post = http("POST");
+exports.put = http("PUT");
+exports.patch = http("PATCH");
+exports.delete = http("DELETE");
 
 // Fetch Options signature:
 // {

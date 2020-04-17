@@ -63,6 +63,8 @@ exports.put = http("PUT");
 exports.patch = http("PATCH");
 exports.delete = http("DELETE");
 
+// More inspo: https://github.com/developit/redaxios/blob/982fd7fe30189e662cda5b72f9b37c8f1babc038/src/index.js
+
 // Fetch Options signature:
 // {
 //   method: "GET", // POST, PUT, DELETE, etc.

@@ -6,36 +6,36 @@
  * @param {string} [method] HTTP method
  * @returns {function}
  */
-function http(method = "GET") {
+function wrapper(method, defaultOpts = {}) {
   /**
    * A convenient HTTP method wrapper
    * @param {string} url
    * @param {object} [options={}] see https://javascript.info/fetch-api for full list of options
    * @return {promise} Resulting fetch promise which resolves to the text or json response.
    */
-  return (url, options = {}) => {
-    options.method = options.method || method;
-    options.headers = options.headers || {};
-    const { query, json, data, form, body } = options;
+  return (url, options = defaultOpts) => {
+    options.method = options.method || method
+    options.headers = options.headers || {}
+    const { query, json, data, form, body } = options
 
     if (query) {
-      url += "?" + new URLSearchParams(query).toString();
+      url += "?" + new URLSearchParams(query).toString()
     }
 
     if (["POST", "PUT", "PATCH"].includes(options.method) && !body) {
       if (json) {
-        options.headers["content-type"] = "application/json";
-        options.body = JSON.stringify(json);
+        options.headers["content-type"] = "application/json"
+        options.body = JSON.stringify(json)
       } else if (data) {
-        options.body = new URLSearchParams(data);
+        options.body = new URLSearchParams(data)
       } else if (form) {
-        options.body = new FormData(form);
+        options.body = new FormData(form)
       }
     }
 
     return fetch(url, options).then(async (res) => {
-      const contentType = res.headers.get("content-type");
-      const isJson = contentType && contentType.includes("application/json");
+      const contentType = res.headers.get("content-type")
+      const isJson = contentType && contentType.includes("application/json")
 
       const final = {
         timeout: res.timeout,
@@ -50,18 +50,35 @@ function http(method = "GET") {
         // blob [Function: blob]
         // buffer [Function: buffer]
         data: isJson ? await res.json() : await res.text(),
-      };
+      }
 
-      return final.ok ? final.data : Promise.reject(final);
-    });
-  };
+      return final.ok ? final.data : Promise.reject(final)
+    })
+  }
 }
 
-exports.get = http("GET");
-exports.post = http("POST");
-exports.put = http("PUT");
-exports.patch = http("PATCH");
-exports.delete = http("DELETE");
+const defaultOpts = {
+  transformRequest: [],
+}
+
+const verbs = ["get", "post", "put", "patch", "delete"]
+
+function http(options) {
+  options = Object.assign({}, defaultOpts, options)
+  options = options.transformRequest.reduce((opts, fn) => fn(opts), options)
+
+  const entries = verbs.map((verb) => {
+    return [verb, wrapper(verb, options)]
+  })
+  return Object.fromEntries(entries)
+}
+
+for (const verb of verbs) {
+  http[verb] = wrapper(verb)
+}
+
+module.exports = http
+
 
 // More inspo: https://github.com/developit/redaxios/blob/982fd7fe30189e662cda5b72f9b37c8f1babc038/src/index.js
 

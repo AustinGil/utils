@@ -22,7 +22,7 @@ function wrapper(method, defaultOpts = {}) {
       url += "?" + new URLSearchParams(query).toString()
     }
 
-    if (["POST", "PUT", "PATCH"].includes(options.method) && !body) {
+    if (["post", "put", "patch"].includes(options.method) && !body) {
       if (json) {
         options.headers["content-type"] = "application/json"
         options.body = JSON.stringify(json)

@@ -1,4 +1,7 @@
-function toRawType (value) {
-  const _toString = Object.prototype.toString
-  return _toString.call(value).slice(8, -1)
-}
+/**
+ * @param {*} v
+ * @returns {("string"|"number"|"boolean"|"array"|"function"|"null"|"undefined"|"object")}
+ */
+const getRawType = (v) => {
+  return Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
+};

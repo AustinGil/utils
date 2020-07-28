@@ -1,14 +1,63 @@
 /**
- * @param {object} obj Object with values to pluck
- * @param {string[]} keys Keys of the values to pluck
- * @returns {object} New object with keys params and values plucked from original
+ * Returns a new object containing only specified properties from input object
+ *
+ * @param {object} obj object to clone
+ * @param {string[]} keys array of keys you want to include in clone
+ * @returns {object} Cloned object with only specified keys. Empty object if no keys provided.
  */
-exports.pluck = (obj, keys) => {
-  return keys.reduce((newObj, key) => {
-    newObj[key] = obj[key]
-    return newObj
-  }, {})
-}
+exports.cloneOnlyKeys = (obj, keys = []) => {
+  return keys.reduce((next, key) => {
+    next[key] = obj[key];
+    return next;
+  }, {});
+};
+/** TESTS
+describe('utils.cloneOnlyKeys()', () => {
+  it('clones an object with only specified keys', () => {
+    const obj = {
+      a: random.word(),
+      b: random.word(),
+      c: random.word(),
+    };
+    const clone = utils.cloneOnlyKeys(obj, ['a', 'c']);
+
+    expect(clone.a).toBe(obj.a);
+    expect(clone.c).toBe(obj.c);
+    expect(clone.b).toBeUndefined();
+  });
+});
+*/
+
+/**
+ * Returns a cloned object of the input object, excluding the specified properties
+ *
+ * @param {DynamicObject} obj Object to clone
+ * @param {Array<string>} keys Keys you want to exclude from clone
+ * @returns {DynamicObject} Cloned object without specified keys.
+ */
+exports.cloneExceptKeys = (obj, keys) => {
+  return Object.keys(obj).reduce((next, key) => {
+    if (!keys.includes(key)) {
+      next[key] = obj[key];
+    }
+    return next;
+  }, {});
+};
+/** TESTS
+describe('utils.cloneExceptKeys()', () => {
+  it('clones an object excluding specified keys', () => {
+    const obj = {
+      a: random.word(),
+      b: random.word(),
+      c: random.word(),
+    };
+    const clone = utils.cloneExceptKeys(obj, ['b']);
+
+    expect(clone.a).toBe(obj.a);
+    expect(clone.c).toBe(obj.c);
+    expect(clone.b).toBeUndefined();
+  });
+});
 
 /**
  * Converts an array of objects to a CSV string

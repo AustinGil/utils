@@ -1,42 +1,42 @@
 /**
- * Returns an HTTP method wrapper
  * TODO: Add abort feature (https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
  * TODO: Add streams (https://jakearchibald.com/2016/streams-ftw/)
  * TODO: Add Progress (https://danlevy.net/you-may-not-need-axios/)
- * @param {string} [method] HTTP method
- * @returns {function}
  */
-function wrapper(method, defaultOpts = {}) {
-  /**
-   * A convenient HTTP method wrapper
-   * @param {string} url
-   * @param {object} [options={}] see https://javascript.info/fetch-api for full list of options
-   * @return {promise} Resulting fetch promise which resolves to the text or json response.
-   */
-  return (url, options = defaultOpts) => {
-    options.method = options.method || method
-    options.headers = options.headers || {}
-    const { query, json, data, form, body } = options
+const http = (function create(defaults = {}) {
+  function http(url, config = {}) {
+  	Object.assign(config, defaults)
+    config.method = config.method
+    config.headers = config.headers || {}
+    const { query, json, data, form, body } = config
+
+    if (config.baseURL) {
+    	url = '' + new URL(url, config.baseURL);
+    }
 
     if (query) {
-      url += "?" + new URLSearchParams(query).toString()
+      url += `?${new URLSearchParams(query).toString()}`
     }
 
-    if (["post", "put", "patch"].includes(options.method) && !body) {
+    if (["post", "put", "patch"].includes(config.method.toLowerCase()) && !body) {
       if (json) {
-        options.headers["content-type"] = "application/json"
-        options.body = JSON.stringify(json)
+        config.headers["content-type"] = "application/json"
+        config.body = JSON.stringify(json)
       } else if (data) {
-        options.body = new URLSearchParams(data)
+        config.body = new URLSearchParams(data)
       } else if (form) {
-        options.body = new FormData(form)
+        config.body = new FormData(form)
       }
     }
+    
+    /* (options.transformRequest || []).map((f) => {
+      data = f(data, options.headers) || data;
+    }); */
 
-    return fetch(url, options).then(async (res) => {
+    /* return fetch(url, config).then(async (res) => {
       const contentType = res.headers.get("content-type")
       const isJson = contentType && contentType.includes("application/json")
-
+    
       const final = {
         timeout: res.timeout,
         url: res.url,
@@ -51,31 +51,49 @@ function wrapper(method, defaultOpts = {}) {
         // buffer [Function: buffer]
         data: isJson ? await res.json() : await res.text(),
       }
-
+    
       return final.ok ? final.data : Promise.reject(final)
-    })
+    }) */
+
+    const response = {};
+
+    return fetch(url, config).then((res) => {
+      for (const i in res) {
+        if (typeof res[i] != 'function') response[i] = res[i];
+      }
+
+      const ok = config.validateStatus ? config.validateStatus(res.status) : res.ok;
+      if (!ok) return Promise.reject(res);
+
+      /* if (options.responseType == 'stream') {
+        response.data = res.body;
+        return response;
+      } */
+
+    	return res[config.responseType || 'text']()
+    		.then((data) => {
+    			response.data = data;
+    			// its okay if this fails: response.data will be the unparsed value:
+    			response.data = JSON.parse(data);
+    		})
+    		.catch(Object)
+    		.then(() => response.data);
+    	});
   }
-}
 
-const defaultOpts = {
-  transformRequest: [],
-}
+  http.CancelToken = (typeof AbortController == 'function' ? AbortController : Object);
 
-const verbs = ["get", "post", "put", "patch", "delete"]
+  http.get = (url = '', config) => http(url, { ...config, method: 'GET' });
+  http.post = (url = '', config) => http(url, { ...config, method: 'POST' });
+  http.put = (url = '', config) => http(url, { ...config, method: 'PUT' });
+  http.patch = (url = '', config) => http(url, { ...config, method: 'PATCH' });
+  http.delete = (url = '', config) => http(url, { ...config, method: 'DELETE' });
+  http.options = (url = '', config) => http(url, { ...config, method: 'OPTIONS' });
+  
+  http.create = create
 
-function http(options) {
-  options = Object.assign({}, defaultOpts, options)
-  options = options.transformRequest.reduce((opts, fn) => fn(opts), options)
-
-  const entries = verbs.map((verb) => {
-    return [verb, wrapper(verb, options)]
-  })
-  return Object.fromEntries(entries)
-}
-
-for (const verb of verbs) {
-  http[verb] = wrapper(verb)
-}
+  return http;
+})();
 
 module.exports = http
 

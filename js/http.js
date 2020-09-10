@@ -9,6 +9,21 @@
  */
 
 const http = (function create(defaults = {}) {
+  /**
+   * @param {string} url
+   * @param {RequestInit & {
+   * baseURL?: string
+   * url?: RequestInfo
+   * query?: Record<any, any>
+   * json?: Record<any, any>
+   * data?: Record<any, any>
+   * form?: HTMLFormElement
+   * modifyRequest?: function
+   * ignoreStatus?: boolean
+   * modifyResponse?: function
+   * }} [config={}]
+   * @returns {Promise<HttpResponse>}
+   */
   function http(url, config = {}) {
     Object.assign(config, defaults);
     config.url = url;

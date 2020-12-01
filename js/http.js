@@ -31,8 +31,11 @@ const http = (function create(defaults = {}) {
     config.headers = config.headers || {};
     const { query, json, data, form, body } = config;
 
-    if (config.baseURL) {
-      config.url = '' + new URL(url, config.baseURL);
+    try {
+      // Try to use a full URL, use it (fails on partial routes).
+      config.url = '' + new URL(url);
+    } catch {
+      config.url = '' + new URL(config.baseURL + url);
     }
 
     if (query) {

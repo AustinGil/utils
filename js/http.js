@@ -25,7 +25,7 @@ const http = (function create(defaults = {}) {
    * @returns {Promise<HttpResponse>}
    */
   function http(url, config = {}) {
-    Object.assign(config, defaults);
+    config = Object.assign({}, defaults, config);
     config.url = url;
     config.method = config.method || 'get';
     config.headers = config.headers || {};

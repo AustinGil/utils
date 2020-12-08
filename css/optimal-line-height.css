@@ -1,0 +1,5 @@
+/* https://hugogiraudel.com/2020/05/18/using-calc-to-figure-out-optimal-line-height/ */
+
+html {
+  line-height: calc(2px + 2ex + 2px);
+}

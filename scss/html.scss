@@ -245,6 +245,10 @@ pre {
   padding: 0;
 }
 
+[id] {
+  scroll-margin-top: 2ex;
+}
+
 // Text highlight effect 
 ::selection {
   color: #fff;

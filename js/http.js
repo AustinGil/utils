@@ -25,24 +25,21 @@ const http = (function create(defaults = {}) {
    * @returns {Promise<HttpResponse>}
    */
   function http(url, config = {}) {
-    config = Object.assign({}, defaults, config);
+    Object.assign(config, defaults);
     config.url = url;
-    config.method = config.method || 'get';
+    config.method = config.method.toUpperCase() || 'GET';
     config.headers = config.headers || {};
     const { query, json, data, form, body } = config;
 
-    try {
-      // Try to use a full URL, use it (fails on partial routes).
-      config.url = '' + new URL(url);
-    } catch {
-      config.url = '' + new URL(config.baseURL + url);
+    if (config.baseURL) {
+      config.url = '' + new URL(url, config.baseURL);
     }
 
     if (query) {
       config.url += `?${new URLSearchParams(query).toString()}`;
     }
 
-    if (!body && ['post', 'put', 'patch'].includes(config.method.toLowerCase())) {
+    if (!body && ['POST', 'PUT', 'PATCH'].includes(config.method)) {
       if (json) {
         config.headers['content-type'] = 'application/json';
         config.body = JSON.stringify(json);
@@ -55,7 +52,9 @@ const http = (function create(defaults = {}) {
 
     config = config.modifyRequest ? config.modifyRequest(config) : config;
 
-    return fetch(config.url, config).then(async (/** @type {HttpResponse} */ response) => {
+    return fetch(config.url, config).then(async (
+      /** @type {HttpResponse} */ response
+    ) => {
       const contentType = response.headers.get('content-type');
       const isJson = contentType && contentType.includes('application/json');
 
@@ -71,14 +70,16 @@ const http = (function create(defaults = {}) {
     });
   }
 
-  for (const method of ['get', 'post', 'put', 'patch', 'delete', 'options']) {
-    http[method] = (url = '', config) => http(url, { ...config, method });
-  }
+  http.get = (url = '', config) => http(url, { ...config, method: 'GET' });
+  http.post = (url = '', config) => http(url, { ...config, method: 'POST' });
+  http.put = (url = '', config) => http(url, { ...config, method: 'PUT' });
+  http.patch = (url = '', config) => http(url, { ...config, method: 'PATCH' });
+  http.delete = (url = '', config) =>
+    http(url, { ...config, method: 'DELETE' });
 
   http.create = create;
 
   return http;
 })();
 
-module.exports = http;
-
+export default http;

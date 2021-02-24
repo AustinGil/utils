@@ -7,16 +7,10 @@
 function download(data, filename = 'download.txt') {
   if (data == null) return;
 
-  let type = 'txt';
-  const index = filename.lastIndexOf('.');
-  if (index > -1) {
-    type = filename.slice(index + 1);
-  }
-
   const link = document.createElement('a');
   link.setAttribute(
     'href',
-    `data:text/${type};charset=utf-8,${encodeURI(data)}`
+    `data:text/txt;charset=utf-8,${encodeURI(data)}`
   );
   link.setAttribute('download', filename);
   link.click();

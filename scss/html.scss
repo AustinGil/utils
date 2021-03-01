@@ -134,6 +134,7 @@ button {
 
 img,
 figure,
+iframe,
 svg {
   vertical-align: middle;
   max-width: 100%;
@@ -200,10 +201,11 @@ select {
   padding-right: 2.3em; // So text doesn't overlap image
   // use color variable, then string-replace '#' with '%23' for browser support
   background-image: url(str-replace(
-    'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249.5 145.5"><path fill="#{$highlight}" d="M249.5 20.75c0 2-1 4.25-2.5 5.75L130.5 143c-1.5 1.5-3.75 2.5-5.75 2.5s-4.25-1-5.75-2.5L2.5 26.5C1 25 0 22.75 0 20.75S1 16.5 2.5 15L15 2.5C16.5 1 18.5 0 20.75 0c2 0 4.25 1 5.75 2.5l98.25 98.25L223 2.5c1.5-1.5 3.75-2.5 5.75-2.5s4.25 1 5.75 2.5L247 15c1.5 1.5 2.5 3.75 2.5 5.75z"></path></svg>',
+    'data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='4'><path fill="#{$highlight}" d='M4 0h6L7 4'/></svg>',
     "#",
     "%23"
   ));
+  
   background-size: 0.7em;
   background-repeat: no-repeat;
   background-position: right 0.8em center;
@@ -269,4 +271,18 @@ pre {
 ::selection {
   color: #fff;
   background: $highlight;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+  }
 }

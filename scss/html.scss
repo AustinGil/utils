@@ -130,6 +130,8 @@ a {
 button {
   font: inherit;
   -webkit-font-smoothing: inherit;
+  color: inherit;
+  letter-spacing: inherit;
 }
 
 img,
@@ -188,6 +190,8 @@ textarea {
   max-width: 100%;
   border: 1px solid var(--stroke);
   font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
 
   &:disabled {
     opacity: 0.5;

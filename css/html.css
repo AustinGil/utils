@@ -195,8 +195,12 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 } */
 
-input:not(select):disabled,
 :disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+/* Needs the :not qualifier for specificity */
+input:not(x)[readonly] {
   border-style: dotted;
   cursor: not-allowed;
 }

@@ -154,15 +154,17 @@ textarea {
   color: inherit;
   letter-spacing: inherit;
 }
-input:not(
-  input[type="checkbox"],
-  input[type="radio"],
-  input[type="file"],
-  input[type="image"],
-  input[type="button"],
-  input[type="reset"],
-  input[type="submit"]
-), select, textarea {
+/* :where removes specificity from :not */
+:where(input:not(
+  [type="checkbox"],
+  [type="radio"],
+  [type="file"],
+  [type="image"],
+  [type="color"],
+  [type="button"],
+  [type="reset"],
+  [type="submit"]
+)), select, textarea {
   width: 100%;
   max-width: 100%;
   border: 1px solid;
@@ -200,7 +202,7 @@ input[type="search"]::-webkit-search-results-decoration {
   cursor: not-allowed;
 }
 /* Needs the :not qualifier for specificity */
-input:not(x)[readonly] {
+input[readonly] {
   border-style: dotted;
   cursor: not-allowed;
 }

@@ -195,6 +195,12 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 } */
 
+input:not(select):disabled,
+:disabled {
+  border-style: dotted;
+  cursor: not-allowed;
+}
+
 small {
   font-size: 80%;
 }

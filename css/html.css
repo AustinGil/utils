@@ -198,9 +198,12 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 } */
 
-:disabled {
-  opacity: 0.8;
+/* Include attribute for anchors. */
+:disabled,
+[disabled] {
+  pointer-events: none;
   cursor: not-allowed;
+  opacity: .7;
 }
 /* Needs the :not qualifier for specificity */
 input[readonly] {

@@ -13,6 +13,7 @@
 
 html {
   box-sizing: border-box;
+  word-break: break-word;
   text-size-adjust: 100%;
   text-rendering: optimizeSpeed;
 }

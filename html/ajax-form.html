@@ -1,0 +1,25 @@
+<form 
+  action="https://formsubmit.co/ajax/you@example.com"
+  method="POST"
+  onsubmit="return (function(event) {
+    const form = event.target;
+    const data = new FormData(form);
+    const url = form.action;
+    
+    fetch(url, {
+      method: form.method,
+      body: new URLSearchParams(data),
+    })
+    .then(response => {
+      if(response.ok) {
+        form.reset()
+      }
+    })
+    
+    event.preventDefault();
+    return false;
+  })(event);">
+  
+  <input name="test" type="text">
+  <button>Submit</button>
+</form>

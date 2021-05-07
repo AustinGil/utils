@@ -70,7 +70,7 @@ const http = (function create(defaults = {}) {
       
       if (!response.ok) {
         if (retries > 0) {
-          return new Promise(r => setTimeout(r, backoff)).then(() => download(id, retries - 1, backoff * 2))
+          return new Promise(r => setTimeout(r, backoff)).then(() => http(config.url, config))
         } else {
           return Promise.reject(response)
         }

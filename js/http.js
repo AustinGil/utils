@@ -29,6 +29,8 @@ const http = (function create(defaults = {}) {
     config.url = url;
     config.method = config.method.toUpperCase() || 'GET';
     config.headers = config.headers || {};
+    config.retries = config.retries || 0
+    config.backoff = config.backoff || 300
     const { query, json, data, form, body } = config;
 
     if (config.baseURL) {
@@ -65,6 +67,14 @@ const http = (function create(defaults = {}) {
       response = config.modifyResponse
         ? config.modifyResponse(response)
         : response;
+      
+      if (!response.ok) {
+        if (retries > 0) {
+          return new Promise(r => setTimeout(r, backoff)).then(() => download(id, retries - 1, backoff * 2))
+        } else {
+          return Promise.reject(response)
+        }
+      }
 
       return ok ? response : Promise.reject(response);
     });

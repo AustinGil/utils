@@ -69,7 +69,7 @@ const http = (function create(defaults = {}) {
         : response;
       
       if (!response.ok) {
-        if (retries > 0) {
+        if (config.retries > 0) {
           return new Promise(r => setTimeout(r, backoff)).then(() => http(config.url, config))
         } else {
           return Promise.reject(response)

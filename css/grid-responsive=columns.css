@@ -1,4 +1,0 @@
-.responsive-columns {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-breakpoint), 1fr));
-}

@@ -1,0 +1,13 @@
+.responsive-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--grid-col-breakpoint), 1fr));
+}
+
+/* Also to control items per row w/o media queries @see https://css-tricks.com/responsive-layouts-fewer-media-queries/
+clamp(
+  clamp(
+    clamp(100%/(var(--n) + 1) + 0.1%, (var(--w1) - 100vw)*1000,
+          100%/(var(--m) + 1) + 0.1%),(var(--w2) - 100vw)*1000,
+          100%/(var(--p) + 1) + 0.1%),(var(--w3) - 100vw)*1000,
+          100%), 1fr))
+*/

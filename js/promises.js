@@ -44,3 +44,22 @@ class LazyPromise extends Promise {
     return promise.then.apply(promise, arguments);
   }
 }
+
+function abortableAsync({signal}) {
+	if (signal.aborted) {
+		return Promise.reject(new DOMException('Aborted', 'AbortError'));
+	}
+
+	return new Promise((resolve, reject) => {
+		console.log('Promise Started');
+
+		// Something fake async
+		const timeout = window.setTimeout(resolve, 2500, 'Promise Resolved')
+
+		// Listen for abort event on signal
+		signal.addEventListener('abort', () => {
+			window.clearTimeout(timeout);
+			reject(new DOMException('Aborted', 'AbortError'));
+		});
+	});
+}

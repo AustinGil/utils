@@ -29,3 +29,18 @@ function deferred() {
 
   return promise
 }
+
+class LazyPromise extends Promise {
+  constructor(fn) {
+      super(()=>{});
+    if (typeof fn !== 'function') {
+      throw new TypeError('A function should be used for constructor');
+    }
+    this._fn = fn;
+  }
+
+  then() {
+    const promise = new Promise(this._fn);
+    return promise.then.apply(promise, arguments);
+  }
+}

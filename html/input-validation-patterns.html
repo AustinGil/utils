@@ -1,0 +1,24 @@
+<!-- alpha -->
+<input pattern="^[a-zA-Z]+$">
+
+<!-- alphanumberic -->
+<input pattern="^[a-zA-Z\d]+$">
+
+<!-- not empty whitespace -->
+<input required pattern=".*\S.*">
+
+<!-- email -->
+<input type="email" pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
+
+<!-- country code -->
+<input pattern="[A-Za-z]{3}">
+
+<!-- url -->
+<input type="url" pattern="https?://.+">
+<input type="url" pattern="[(http(s)?):\/\/(www\.)?\w-/=#%&\.\?]{2,}\.[a-z]{2,}([\w-/=#%&\.\?]*)">
+
+<!-- phone number -->
+<!-- US -->
+<input type="tel" pattern="\(?(\d{3})\)?[-\.\s]?(\d{3})[-\.\s]?(\d{4})">
+<!-- generic -->
+<input type="tel" pattern="^\d{9,15}$">

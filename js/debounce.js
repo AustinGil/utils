@@ -1,12 +1,18 @@
-const debounce = (func, delay, { leading } = {}) => {
-  let timerId
+/**
+ * @param {(...args: any[]) => unknown} func
+ * @param {number} delay
+ * @param {{ leading?: boolean }} [options]
+ */
+export const debounce = (func, delay, options = {}) => {
+  /** @type {ReturnType<typeof setTimeout>} */
+  let timerId;
 
-  return (...args) => {
-    if (!timerId && leading) {
-      func(...args)
+  return (/** @type {Parameters<typeof func>} */ ...args) => {
+    if (!timerId && options.leading) {
+      func(...args);
     }
-    clearTimeout(timerId)
+    clearTimeout(timerId);
 
-    timerId = setTimeout(() => func(...args), delay)
-  }
-}
+    timerId = setTimeout(() => func(...args), delay);
+  };
+};

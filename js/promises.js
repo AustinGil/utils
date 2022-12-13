@@ -31,17 +31,17 @@ function deferred() {
 }
 
 class LazyPromise extends Promise {
+  /** @param {ConstructorParameters<PromiseConstructor>[0]} fn */
   constructor(fn) {
-      super(()=>{});
+    super(fn);
     if (typeof fn !== 'function') {
-      throw new TypeError('A function should be used for constructor');
+      throw new TypeError(`Promise resolver is not a function`);
     }
     this._fn = fn;
   }
-
   then() {
-    const promise = new Promise(this._fn);
-    return promise.then.apply(promise, arguments);
+    this.promise = this.promise || new Promise(this._fn);
+    return this.promise.then.apply(this.promise, arguments);
   }
 }
 

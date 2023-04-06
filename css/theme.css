@@ -91,8 +91,44 @@ button,
   }
 }
 
+/**
+ * VALIDATION
+ */
+form:has(:invalid) :where(button:not([type]), button[type="submit"]) {
+  opacity: 0.7;
+  color: var(--text);
+  background: whitesmoke;
+  cursor: not-allowed;
+}
+
+/**
+ * SWITCH
+ */
+input[type="checkbox"].switch {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  width: 2.5em;
+  height: 1.3em;
+  border-radius: 10000px;
+  padding: .125em;
+  box-shadow: none;
+}
+input[type="checkbox"].switch:before {
+  content: '';
+  width: .9em;
+  height: .9em;
+  border: 1px solid;
+  border-radius: 10000px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+input[type="checkbox"].switch:checked:before {
+  background-color: var(--highlight);
+  transform: translateX(1em);
+}
+
 /* UTILS */
-.visually-hidden {
+/* .visually-hidden {
   border: 0;
   clip: rect(0 0 0 0);
   height: auto;
@@ -134,43 +170,7 @@ button,
 }
 .bg-white {
   background: var(--white);
-}
-
-/**
- * VALIDATION
- */
-form:has(:invalid) :where(button:not([type]), button[type="submit"]) {
-  opacity: 0.7;
-  color: var(--text);
-  background: whitesmoke;
-  cursor: not-allowed;
-}
-
-/**
- * SWITCH
- */
-input[type="checkbox"].switch {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  width: 2.5em;
-  height: 1.3em;
-  border-radius: 10000px;
-  padding: .125em;
-  box-shadow: none;
-}
-input[type="checkbox"].switch:before {
-  content: '';
-  width: .9em;
-  height: .9em;
-  border: 1px solid;
-  border-radius: 10000px;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-input[type="checkbox"].switch:checked:before {
-  background-color: var(--highlight);
-  transform: translateX(1em);
-}
+} */
 
 /** CARDS */
 /* .card {

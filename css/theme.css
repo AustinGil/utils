@@ -5,9 +5,10 @@
   --green: mediumseagreen;
   --purple: mediumpurple; /* mediumorchid */
   --yellow: gold;
+  --grey: silver;
   /* Utility */
   --light: lavender;
-  --dark: midnightblue; /* darkslateblue */
+  --dark: darkslateblue; /* midnightblue */
   /* Semantic */
   --pen: var(--dark);
   --paper: var(--light);
@@ -17,12 +18,22 @@
   --outlineError: pink;
   --success: var(--green);
   --outlineSuccess: palegreen;
+
+  --transition-duration: 0.2s;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --pen: var(--light);
     --paper: Canvas;
   }
+}
+*,
+*::before,
+*::after {
+  border: 0 solid var(--grey);
+}
+html {
+  color-scheme: light dark;
 }
 body {
   font: 1.25rem/1.5 'Manrope', system-ui;
@@ -46,7 +57,7 @@ input,
 textarea,
 select,
 button {
-  border: .125rem solid;
+  border-width: .125rem;
   border-radius: .25rem;
   padding: .5rem;
   background-color: Field;
@@ -54,6 +65,7 @@ button {
 input,
 textarea,
 select {
+  display: block;
   width: 100%;
 }
 input[type="radio"],
@@ -63,11 +75,11 @@ input[type="checkbox"] {
   inline-size: 1em;
   block-size: 1em;
   margin: 0 .5em 0 0;
-  border: .125rem solid;
+  border-width: .125rem;
   border-radius: .125em;
   vertical-align: middle;
   color: inherit;
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow var(--transition-duration) ease;
 }
 input[type='radio'] {
   border-radius: 50%;
@@ -79,18 +91,16 @@ input[type="radio"]:checked {
 
 fieldset {
   margin: 0;
-  border: .125rem solid;
+  border-width: .125rem;
   border-radius: .25rem;
 }
 button,
 [type="button"],
 ::file-selector-button {
-  border: .125rem solid transparent;
-  border-radius: .25rem;
   color: var(--paper);
   background-color: var(--pen);
 }
-:focus-visible {
+:focus {
   outline: 3px solid var(--outline);
   outline-offset: 1px;
 }
@@ -132,7 +142,9 @@ input[type="checkbox"].switch:before {
   height: .9em;
   border: 1px solid;
   border-radius: 10000px;
-  transition: transform 0.3s ease, background 0.3s ease;
+  transition-duration: var(--transition-duration);
+  transition-property: transform, background;
+  transition-timing-function: ease;
 }
 input[type="checkbox"].switch:checked:before {
   background-color: var(--highlight);

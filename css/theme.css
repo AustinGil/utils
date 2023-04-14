@@ -126,7 +126,7 @@ button,
 /**
  * VALIDATION
  */
-form:has(:invalid) :where(button:not([type]), button[type="submit"]) {
+form:invalid :where(button:not([type]), button[type="submit"]) {
   opacity: 0.7;
   cursor: not-allowed;
 }

@@ -71,6 +71,7 @@ select {
 }
 input[type="radio"],
 input[type="checkbox"] {
+  display: inline-block;
   position: relative;
   appearance: none;
   inline-size: 1em;

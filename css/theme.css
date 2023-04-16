@@ -107,7 +107,8 @@ button,
   outline-offset: 1px;
 }
 :disabled,
-[aria-disabled="true"]{
+[aria-disabled="true"],
+form:invalid :where(button:not([type]), button[type="submit"]) {
   border-style: dotted;
   cursor: not-allowed;
   opacity: 0.8;
@@ -124,14 +125,6 @@ button,
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/**
- * VALIDATION
- */
-form:invalid :where(button:not([type]), button[type="submit"]) {
-  opacity: 0.7;
-  cursor: not-allowed;
 }
 
 /**

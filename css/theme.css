@@ -59,7 +59,7 @@ textarea,
 select,
 button {
   border-width: .125rem;
-  border-radius: .25rem;
+  border-radius: .5rem;
   padding: .5rem;
   background-color: Field;
 }
@@ -94,7 +94,7 @@ input[type="radio"]:checked {
 fieldset {
   margin: 0;
   border-width: .125rem;
-  border-radius: .25rem;
+  border-radius: .5rem;
 }
 button,
 [type="button"],

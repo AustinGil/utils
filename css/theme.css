@@ -100,6 +100,7 @@ button,
 [type="button"],
 ::file-selector-button {
   color: var(--paper);
+  border-color: var(--pen);
   background-color: var(--pen);
 }
 :focus {
@@ -114,6 +115,11 @@ form:invalid :where(button:not([type]), button[type="submit"]) {
 }
 [readonly] {
   border-style: dashed;
+}
+::file-selector-button {
+  border: 0;
+  border-radius: .24rem;
+  padding-block: 0;
 }
 @media (prefers-reduced-motion: reduce) {
   *,

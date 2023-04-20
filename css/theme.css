@@ -109,7 +109,6 @@ button,
 :disabled,
 [aria-disabled="true"],
 form:invalid :where(button:not([type]), button[type="submit"]) {
-  border-style: dotted;
   cursor: not-allowed;
   opacity: 0.8;
 }

@@ -160,3 +160,33 @@ input[type="checkbox"].switch:checked:before {
   background-color: var(--highlight);
   transform: translateX(1em);
 }
+
+img,
+figure,
+iframe,
+svg {
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+svg {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 0;
+}
+
+::selection {
+  color: lavender;
+  background: var(--purple);
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+}

@@ -100,6 +100,8 @@ fieldset {
 }
 button,
 [type="button"],
+[type="submit"],
+[type="reset"],
 ::file-selector-button {
   color: var(--paper);
   border-color: var(--pen);

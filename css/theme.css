@@ -164,6 +164,15 @@ input[type="checkbox"].switch:checked:before {
   transform: translateX(1em);
 }
 
+dialog {
+  padding: 0;
+  border-radius: .5rem;
+}
+dialog::backdrop {
+  background-color: rgb(0,0,0,0.2);
+  backdrop-filter: blur(4px);
+}
+
 img,
 figure,
 iframe,

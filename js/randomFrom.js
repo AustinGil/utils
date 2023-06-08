@@ -4,12 +4,10 @@
  * @param {number} [to=100] The upper bound of a range of numbers.
  * @return {*}
  */
-function randomFrom(from = 0, to = 100) {
+export function randomFrom(from = 0, to = 100) {
   if (Array.isArray(from) || typeof from === "string") {
     const index = randomFrom(0, from.length - 1)
     return from[index]
   }
   return Math.floor(Math.random() * (to - from + 1) + from)
 }
-
-export default randomFrom

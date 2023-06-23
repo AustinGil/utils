@@ -4,12 +4,10 @@
  * @param {string} [allowed=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789] - Characters allowed in the results.
  * @return {string}
  */
-function randomString(length = 10, allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
+export function randomString(length = 10, allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
   let result = ""
   for (let i = 0; i < length; i++) {
     result += allowed.charAt(Math.floor(Math.random() * allowed.length))
   }
   return result
 }
-
-export default randomString

@@ -1,7 +1,5 @@
-/** @param {Event} event */
-export function jsFormSubmit(event) {
-  /** @type {HTMLFormElement} */
-  const form = event.currentTarget;
+/** @param {HTMLFormElement} event */
+export function jsFormSubmit(form) {
   const url = new URL(form.action);
   const formData = new FormData(form);
   const searchParameters = new URLSearchParams(formData);
@@ -17,8 +15,6 @@ export function jsFormSubmit(event) {
   } else {
     url.search = searchParameters;
   }
-
-  fetch(url, fetchOptions);
-
-  event.preventDefault();
+  
+  return fetch(url, fetchOptions);
 }

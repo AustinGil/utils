@@ -1,4 +1,4 @@
-/** @param {HTMLFormElement} event */
+/** @param {HTMLFormElement} form */
 export function jsFormSubmit(form) {
   const url = new URL(form.action);
   const formData = new FormData(form);

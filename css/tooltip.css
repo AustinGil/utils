@@ -1,0 +1,36 @@
+a {
+  position: relative;
+
+  &:after, &:before {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    opacity: 0;
+    transition: all .1s ease-in-out;
+  }
+
+  &:after {
+    content: attr(title);
+    border-radius: 8px;
+    background: black;
+    color: white;
+    padding: 8px 12px;
+    transform: translate3d(-50%, -100%, 0);
+    white-space: nowrap;
+  }
+
+  &:before {
+    content: '';
+    border-width: 6px;
+    border-color: black transparent transparent;
+    border-style: solid;
+    transform: translate3d(-50%, 0, 0);
+  }
+  
+  &:hover {
+    &:after, &:before {
+      opacity: 1;
+      transition: all .1s ease-in-out .2s;
+    }
+  }
+}

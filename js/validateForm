@@ -1,0 +1,55 @@
+
+const validationMapping = {
+  valid: 'valid',
+  required: 'valueMissing',
+  type: 'typeMismatch',
+  min: 'rangeUnderflow',
+  max: 'rangeOverflow',
+  minLength: 'tooShort',
+  maxLength: 'tooLong',
+  pattern: 'patternMismatch',
+  // badInput: 'badInput',
+  // step: 'stepMismatch',
+}
+/**
+ * @typedef {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement} HTMLControl
+ * @param {HTMLFormElement} form
+ * @param {{
+ * errors?: Partial<Record<keyof validationMapping, string|((el:HTMLControl) => string)>>
+ * }} options
+ */
+export function validate(form, { errors } = { errors: {} }) {
+  const state = {
+    valid: form.checkValidity(),
+    c: {},
+    errors: {},
+  }
+  /** @type {NodeListOf<HTMLControl>} */
+  const controls = form.querySelectorAll(':is(input,textarea,select)[name]')
+
+  for (const c of controls) {
+    state.c[c.name] = {}
+    /** @type {string[]} */
+    const errorMessages = []
+
+    for (const htmlAttr in validationMapping) {
+      const validityKey = validationMapping[htmlAttr]
+      // Validity
+      state.c[c.name][htmlAttr] = c.validity[validityKey]
+
+      // Errors
+      let errorMessage = c.getAttribute(`data-error-${htmlAttr}`) || errors[htmlAttr]
+      if (typeof errorMessage === 'function') {
+        errorMessage = errorMessage(c)
+      }
+      if (c.validity[validityKey] && errorMessage) {
+        errorMessages.push(errorMessage)
+      }
+    }
+    c.setCustomValidity(errorMessages.join(''))
+
+    state.errors[c.name] = c.validationMessage
+  }
+
+  return state
+}

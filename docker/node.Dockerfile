@@ -10,7 +10,7 @@ COPY package*.json ./
 USER node
 
 # RUN npm install
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 COPY --chown=node:node . .
 

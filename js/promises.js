@@ -63,3 +63,12 @@ function abortableAsync({signal}) {
 		});
 	});
 }
+
+/**
+ * @template T
+ * @param {Promise<T>} p
+ * @returns {Promise<[Error, undefined] | [undefined, T]>}
+ */
+function inlinePromise(p) {
+	return p.then(r => [undefined, r], e => [e, undefined])
+}

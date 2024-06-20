@@ -33,7 +33,7 @@ function deferred() {
 class LazyPromise extends Promise {
   /** @param {ConstructorParameters<PromiseConstructor>[0]} executor */
   constructor(executor) {
-    super(executor);
+    super(() => {});
     if (typeof executor !== 'function') {
       throw new TypeError(`LazyPromise executor is not a function`);
     }

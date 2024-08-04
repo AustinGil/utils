@@ -5,7 +5,7 @@
  * @param {string} [error] optional custom timeout message
  * @returns {Promise<T>}
  */
-function timeout(original, ms, error = `timed out after ${ms}ms`) {
+export function timeout(original, ms, error = `timed out after ${ms}ms`) {
   return new Promise((resolve, reject) => {
     const timerId = setTimeout(() => reject(new Error(error)), ms);
 
@@ -16,7 +16,7 @@ function timeout(original, ms, error = `timed out after ${ms}ms`) {
   });
 }
 
-function deferred() {
+export function deferred() {
   let res, rej
 
   const promise = new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ class LazyPromise extends Promise {
   }
 }
 
-function abortableAsync({signal}) {
+export function abortableAsync({signal}) {
 	if (signal.aborted) {
 		return Promise.reject(new DOMException('Aborted', 'AbortError'));
 	}
@@ -69,6 +69,6 @@ function abortableAsync({signal}) {
  * @param {Promise<T>} p
  * @returns {Promise<[Error, undefined] | [undefined, T]>}
  */
-function inlinePromise(p) {
+export function inlinePromise(p) {
 	return p.then(r => [undefined, r], e => [e, undefined])
 }

@@ -1,15 +1,15 @@
-const nodemailer = require('nodemailer');
-const { EMAIL_KEY, EMAIL_DEFAULT_FROM } = require('../config');
+import nodemailer from 'nodemailer'
+import { SMTP_URL, SMTP_USER, SMTP_PASS, SMTP_PORT, EMAIL_DEFAULT_FROM } from '../../constants.js'
 
 const isProd = process.env.NODE_ENV === 'production';
 
 class Transporter {
   async _createInstance() {
     const options = {
-      host: 'smtp.sparkpostmail.com',
-      port: 587,
+      host: SMTP_URL,
+      port: SMTP_PORT,
       secure: false, // true for 465, false for other ports
-      auth: { user: 'SMTP_Injection', pass: EMAIL_KEY },
+      auth: { user: SMTP_USER, pass: SMTP_PASS },
     };
 
     if (!isProd) {
@@ -25,13 +25,11 @@ class Transporter {
   /**
    * @param {{
    * to: string
-   * from?: string
    * subject: string
-   * text?: string
-   * html?: string
-   * templateId?: string
-   * }} options
-   * @returns {Promise<void>}
+   * from?: string
+   * }
+   * & ( { text: string, html?: never } | { text?: never, html: string } )
+   * } options
    */
   async send({
     to,
@@ -39,7 +37,6 @@ class Transporter {
     subject,
     text,
     html,
-    templateId,
   }) {
     const self = await this._createInstance();
     const info = await self.sendMail({
@@ -48,7 +45,6 @@ class Transporter {
       subject,
       text,
       html,
-      templateId,
     });
 
     const previewUrl = nodemailer.getTestMessageUrl(info);
@@ -60,23 +56,13 @@ class Transporter {
 }
 
 /**
- * @param {{
- * to: string
- * from?: string
- * subject: string
- * text?: string
- * html?: string
- * templateId?: string
- * }} options
- * @returns {Promise<void>}
- */
-const mail = ({ to, from, subject, text, html, templateId }) => {
+ * @type {InstanceType<typeof Transporter>['send']}
+ */ 
+export const mail = ({ to, from, subject, text, html }) => {
   if (!isProd) {
     subject = `[${process.env.NODE_ENV || 'DEV'}] ` + subject;
   }
 
   const mailer = new Transporter();
-  return mailer.send({ to, from, subject, text, html, templateId });
+  return mailer.send({ to, from, subject, text, html });
 };
-
-module.exports = mail;

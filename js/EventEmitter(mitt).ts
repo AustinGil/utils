@@ -1,3 +1,5 @@
+/** @aee https://github.com/developit/mitt */
+
 export type EventType = string | symbol;
 
 // An event handler can take an optional event argument

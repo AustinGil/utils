@@ -3,12 +3,12 @@
   --white: whitesmoke;
   --red: crimson; /* orangered tomato */
   --green: mediumseagreen;
-  --purple: mediumpurple; /* mediumorchid */
+  --purple: midnightblue; /* mediumpurple mediumorchid */
   --yellow: gold;
   --grey: silver;
   /* Utility */
   --light: lavender;
-  --dark: midnightblue; /* darkslateblue */
+  --dark: black; /* darkslateblue, midnightblue */
   /* Semantic */
   --pen: var(--dark);
   --paper: var(--light);
@@ -25,6 +25,7 @@
   :root {
     --pen: var(--light);
     --paper: var(--dark);
+    --highlight: fuchsia;
   }
 }
 *,
@@ -34,6 +35,8 @@
   border: 0 solid var(--grey);
 }
 html {
+  display: grid;
+  min-height: 100%;
   color-scheme: light dark;
 }
 body {
@@ -54,18 +57,22 @@ input,
 textarea,
 select,
 button,
+.btn,
 ::file-selector-button {
   font: inherit;
   color: inherit;
   letter-spacing: inherit;
+  line-height: 1;
 }
 input,
 textarea,
 select,
-button {
+button,
+.btn {
   border-width: .125rem;
   border-radius: .5rem;
   padding: .5rem;
+  color: FieldText;
   background-color: Field;
 }
 input,
@@ -100,15 +107,25 @@ fieldset {
   margin: 0;
   border-width: .125rem;
   border-radius: .5rem;
+  background-color: Field
 }
 button,
 [type="button"],
 [type="submit"],
 [type="reset"],
+.btn,
 ::file-selector-button {
+  display: inline-block;
   color: var(--paper);
   border-color: var(--pen);
   background-color: var(--pen);
+}
+table {
+  inline-size: 100%;
+}
+th, td {
+  border: 1px solid;
+  padding: .125rem .25rem;
 }
 :focus {
   outline: 3px solid var(--outline);
@@ -140,8 +157,8 @@ form:invalid :where(button:not([type]), button[type="submit"]) {
 }
 
 /**
- * SWITCH
- */
+  * SWITCH
+  */
 input[type="checkbox"].switch {
   appearance: none;
   display: inline-flex;
@@ -191,8 +208,8 @@ svg {
 }
 
 ::selection {
-  color: lavender;
-  background: var(--purple);
+  color: var(--light);
+  background: var(--highlight);
 }
 
 .visually-hidden {

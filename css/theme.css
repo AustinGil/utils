@@ -154,6 +154,8 @@ form:invalid :where(button:not([type]), button[type="submit"]) {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+@media (prefers-reduced-motion: no-preference) {
 	html {
 		interpolate-size: allow-keywords;
 	}

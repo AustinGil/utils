@@ -1,0 +1,34 @@
+/** @see https://una.im/modern-css-theming */
+
+@property --contrast-color {
+  syntax: "<color>";
+  initial-value: white;
+  inherits: true;
+}
+
+.card {
+  --bg: var(--brand-color);
+  --contrast-color: contrast-color(var(--bg));
+  color: var(--contrast-color);
+}
+
+Then use @container style() to branch:
+
+/* If contrast-color is white, its on a dark background:
+   Use warmer light colors */
+@container style(--contrast-color: white) {
+  .card-label,
+  .card-body {
+    /* Relative color palette for body and label text */
+    color: oklch(from var(--bg) 0.9 0.1 h);
+  }
+}
+
+/* If contrast-color is black, it's on a light background:
+   Use deep tones derived from the card's hue */
+@container style(--contrast-color: black) {
+  .theming-card-label,
+  .theming-card-body {
+    color: oklch(from var(--bg) 0.3 0.1 h);
+  }
+}
